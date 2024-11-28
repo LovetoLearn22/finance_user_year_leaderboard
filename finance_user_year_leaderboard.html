@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Leaderboard - This Year</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 40px auto; /* Increased margin for better spacing */
+            padding: 30px; /* Increased padding for breathing space */
+            background-color: #fff;
+            border-radius: 12px; /* Slightly rounder corners */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Softer shadow */
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px; /* Increased spacing */
+        }
+
+        .header h1 {
+            font-size: 28px; /* Make the header text more prominent */
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .header .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px; /* Add more spacing between buttons */
+            flex-wrap: wrap;
+            padding: 10px; /* Add padding to the button container */
+        }
+
+        .header .button-group button {
+            padding: 12px 20px; /* Larger buttons */
+            font-size: 16px; /* Larger text for better readability */
+            font-weight: bold; /* Add emphasis */
+            border: none;
+            border-radius: 8px; /* Make buttons feel more modern */
+            cursor: pointer;
+            transition: all 0.3s ease; /* Smooth hover effects */
+        }
+
+        .header .button-group button.selected {
+            background-color: #0056b3; /* Darker blue for selected button */
+            color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add slight shadow to selected */
+        }
+
+        .header .button-group button:not(.selected) {
+            background-color: #f8f9fa; /* Softer background */
+            color: #495057; /* Slightly darker text */
+            border: 1px solid #ddd; /* Add a border for definition */
+        }
+
+        .header .button-group button:hover:not(.selected) {
+            background-color: #e2e6ea; /* Slight hover effect */
+            border-color: #ccc; /* Enhance the hover look */
+        }
+
+        .leaderboard-top4 {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .user-card {
+            flex: 1;
+            margin: 0 10px;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .user-card img {
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+        }
+        .user-card .username {
+            font-size: 18px;
+            color: #555;
+            font-weight: bold;
+        }
+        .user-card .stat {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .user-card .stat .value {
+            font-weight: bold;
+            color: #333;
+        }
+        .graph {
+            margin-top: 10px;
+            height: 100px;
+            background-color: #ddd;
+            border-radius: 5px;
+        }
+        .left-container {
+            margin-bottom: 20px;
+        }
+        .summary {
+            background-color: #f1f1f1;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .summary h3 {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .summary .value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .ranking-table th, .ranking-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .ranking-table th {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .ranking-table td {
+            font-size: 14px;
+            color: #555;
+        }
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    .profile-container {
+        position: sticky;
+        top: 0;
+        z-index: 2000;
+        background-color: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .ttp-site-header {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+    }
+
+    .ttp-site-header a.logo {
+        display: inline-block;
+        width: 100px;
+        height: 30px;
+        background: url('IMAGES/logo-01 copy.svg') no-repeat center;
+        background-size: contain;
+    }
+
+    .channel-wrapper {
+        flex-grow: 1;
+        display: flex;
+        justify-content: space-between;
+        margin-left: 20px;
+    }
+
+    .ttp-channel-nav {
+        list-style: none;
+        display: flex;
+        margin: 0;
+        padding: 0;
+    }
+
+    .ttp-channel-nav li {
+
+        margin-right: 15px;
+        cursor: pointer;
+    }
+
+    .ttp-channel-nav li:hover {
+        color: #f00;
+    }
+
+    .ttp-search-wrapper {
+        display: flex;
+        align-items: center;
+        min-width: 200px;
+    }
+
+    .ttp-search-wrapper input {
+        padding: 5px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        width: 150px;
+    }
+
+    .ttp-search-wrapper button {
+        margin-left: 5px;
+        padding: 5px 10px;
+        border: none;
+        background-color: #f00;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .header-notice-wrapper,
+    .header-publisher-wrapper,
+    .header-profile-wrapper {
+        margin-left: 15px;
+        display: flex;
+        align-items: center;
+    }
+
+    .header-publisher-wrapper a,
+    .header-notice-wrapper a{
+        color: black;
+        text-decoration: none;
+        font-weight: normal;
+    }
+    .header-profile-wrapper a {
+        color: #f00;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .header-publisher-wrapper a:hover,
+    .header-notice-wrapper a:hover,
+    .header-profile-wrapper a:hover {
+        text-decoration: underline;
+    }
+
+    /* Dropdown Menu Styles */
+    .ttp-city-selector-dropdown-wrapper {
+        position: absolute;
+        background-color: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        padding: 15px;
+        border-radius: 5px;
+        display: none;
+        z-index: 2001;
+    }
+
+    .ttp-channel-nav li:hover .ttp-city-selector-dropdown-wrapper {
+        display: block;
+    }
+
+    .ttp-city-selector-panel {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .ttp-city-selector-panel .desc {
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .cascade-options {
+        display: flex;
+        gap: 10px;
+    }
+
+    .cascade-options select {
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .actions {
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+    }
+
+    .actions .btn {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .actions .btn.cancel {
+        background-color: #ddd;
+        color: #333;
+    }
+
+    .actions .btn.ok {
+        background-color: #f00;
+        color: white;
+    }
+    .more-btn-wrapper {
+        position: relative;
+    }
+
+    .ttp-channel-more-nav-wrapper {
+        position: absolute;
+        background-color: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        padding: 15px;
+        border-radius: 5px;
+        display: none;
+        z-index: 2001;
+        transform: translateX(-50%) scale(0.8);
+        transform-origin: center top;
+    }
+
+    .more-btn-wrapper:hover .ttp-channel-more-nav-wrapper {
+        display: block;
+        transform: translateX(-50%) scale(1);
+        transition: transform 0.2s ease;
+    }
+
+    .ttp-channel-more-nav {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(3, auto);
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .ttp-channel-more-nav li {
+        cursor: pointer;
+        text-align: center;
+        padding: 5px;
+        font-size: 14px;
+    }
+    .notification-container a,
+    .publisher-icon a {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 14px;
+        font-weight: 400;
+    }
+
+    .notification-icon,
+    .create-icon {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    .notification-icon {
+        background-image: url(IMAGES/notification.png);
+    }
+
+    .create-icon {
+        background-image: url(IMAGES/add.png);
+    }
+        li[role="button"].active {
+            color: #007BFF;
+            font-weight: bold;
+        }
+</style>
+
+<div class="profile-container">
+    <div class="ttp-site-header">
+        <a href="IMAGES/logo-01%20copy.svg" class="logo" aria-label="Today's Headlines Logo"></a>
+        <div class="channel-wrapper">
+            <ul class="ttp-channel-nav" aria-label="Navigation">
+                <li role="button" aria-label="Followed Channels">Following</li>
+                <li role="button" aria-label="Recommended">Recommend</li>
+                <li role="button" aria-label="Location News">NYC
+                    <div class="ttp-city-selector-dropdown-wrapper">
+                        <div class="ttp-city-selector-panel">
+                            <div class="desc">Select your region:</div>
+                            <div class="cascade-options">
+                                <select aria-label="Country">
+                                    <option value="china">USA</option>
+                                    <option value="usa">China</option>
+                                    <option value="uk">UK</option>
+                                </select>
+                                <select aria-label="City">
+                                    <option value="beijing">NYC</option>
+                                    <option value="shanghai">Boston</option>
+                                    <option value="newyork">Miami</option>
+                                </select>
+                            </div>
+                            <div class="actions">
+                                <button type="button" class="btn cancel">Cancel</button>
+                                <button type="button" class="btn ok">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li role="button" aria-label="leaderboard" class="active">Leaderboard</li>
+                <li role="button" aria-label="Finance">Finance</li>
+                <li role="button" aria-label="Technology">Tech</li>
+                <li role="button" aria-label="Trending">Trending</li>
+                <li role="button" aria-label="Travel">Travel</li>
+                <li role="button" aria-label="More Channels" class="more-btn-wrapper">More...
+                    <div class="ttp-channel-more-nav-wrapper">
+                        <ul class="ttp-channel-more-nav" role="menu">
+                            <li aria-label="Military Channel" role="menuitem">Military</li>
+                            <li aria-label="Sports Channel" role="menuitem">Sports</li>
+                            <li aria-label="Entertainment Channel" role="menuitem">Entertainment</li>
+                            <li aria-label="History Channel" role="menuitem">History</li>
+                            <li aria-label="Food Channel" role="menuitem">Food</li>
+                            <li aria-label="Live Channel" role="menuitem">Live</li>
+                            <li aria-label="International Channel" role="menuitem">International</li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+            <div class="ttp-search-wrapper">
+                <input type="text" aria-label="Search" placeholder="Search">
+                <button type="button">Search</button>
+            </div>
+            <div class="header-notice-wrapper notification-container">
+                <a href="#" target="_blank" rel="nofollow">
+                    <span class="notification-icon"></span> Notifications
+                </a>
+            </div>
+            <div class="header-publisher-wrapper publisher-icon">
+                <a href="#" target="_blank" rel="nofollow">
+                    <span class="create-icon"></span> Publish
+                </a>
+            </div>
+            <div class="header-profile-wrapper">
+                <a href="#" target="_blank" rel="nofollow">Login</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="container">
+        <div class="header">
+            <div class="button-group">
+                <button class="selected">People</button>
+                <button>Posts</button>
+            </div>
+            <div class="button-group">
+                <button class="selected">Finance</button>
+                <button>Technology</button>
+                <button>Cooking</button>
+                <button>Travelling</button>
+                <button>AI</button>
+                <button>Construction</button>
+                <button>More</button>
+            </div>
+            <div class="button-group">
+                <button>Week</button>
+                <button>Month</button>
+                <button class="selected">Year</button>
+                <button>Overall</button>
+            </div>
+        </div>
+    </div>
+    <div class="leaderboard-top4">
+        <div class="user-card">
+            <img src="https://via.placeholder.com/80" alt="User Profile">
+            <div class="username">@FinanceGuru</div>
+            <div class="stat">Rating: <span class="value">4.5/5 (120 ratings)</span></div>
+            <div class="stat">Engagement: <span class="value">8.3%</span></div>
+            <div class="stat">Awards: <span class="value">$230</span></div>
+            <div class="stat">Posts: <span class="value">25</span></div>
+            <div class="stat">Comments: <span class="value">560</span></div>
+            <div class="stat">Loves: <span class="value">1,430</span></div>
+            <div class="graph"></div>
+            <div class="stat">Total Views: <span class="value">150,000</span></div>
+        </div>
+        <div class="user-card">
+            <img src="https://via.placeholder.com/80" alt="User Profile">
+            <div class="username">@MarketWizard</div>
+            <div class="stat">Rating: <span class="value">4.3/5 (100 ratings)</span></div>
+            <div class="stat">Engagement: <span class="value">7.5%</span></div>
+            <div class="stat">Awards: <span class="value">$190</span></div>
+            <div class="stat">Posts: <span class="value">22</span></div>
+            <div class="stat">Comments: <span class="value">520</span></div>
+            <div class="stat">Loves: <span class="value">1,200</span></div>
+            <div class="graph"></div>
+            <div class="stat">Total Views: <span class="value">140,000</span></div>
+        </div>
+        <div class="user-card">
+            <img src="https://via.placeholder.com/80" alt="User Profile">
+            <div class="username">@StockStrategist</div>
+            <div class="stat">Rating: <span class="value">4.2/5 (80 ratings)</span></div>
+            <div class="stat">Engagement: <span class="value">7.0%</span></div>
+            <div class="stat">Awards: <span class="value">$180</span></div>
+            <div class="stat">Posts: <span class="value">18</span></div>
+            <div class="stat">Comments: <span class="value">490</span></div>
+            <div class="stat">Loves: <span class="value">1,000</span></div>
+            <div class="graph"></div>
+            <div class="stat">Total Views: <span class="value">130,000</span></div>
+        </div>
+        <div class="user-card">
+            <img src="https://via.placeholder.com/80" alt="User Profile">
+            <div class="username">@WealthArchitect</div>
+            <div class="stat">Rating: <span class="value">4.0/5 (70 ratings)</span></div>
+            <div class="stat">Engagement: <span class="value">6.8%</span></div>
+            <div class="stat">Awards: <span class="value">$150</span></div>
+            <div class="stat">Posts: <span class="value">20</span></div>
+            <div class="stat">Comments: <span class="value">450</span></div>
+            <div class="stat">Loves: <span class="value">900</span></div>
+            <div class="graph"></div>
+            <div class="stat">Total Views: <span class="value">120,000</span></div>
+        </div>
+    </div>
+
+    <div class="left-container">
+        <div class="summary">
+            <h3>Total Views from Top 100 Creators</h3>
+            <div class="value">1,500,000</div>
+        </div>
+        <div class="summary">
+            <h3>Total $ Amount Awarded</h3>
+            <div class="value">$12,300</div>
+        </div>
+        <div class="summary">
+            <h3>Total Creators</h3>
+            <div class="value">412</div>
+        </div>
+        <div class="container">
+            <div class="summary keywords">
+                <h3>Top Keywords</h3>
+                <ol>
+                    <li>Investment</li>
+                    <li>Stocks</li>
+                    <li>Banking</li>
+                    <li>Growth</li>
+                    <li>Inflation</li>
+                    <li>Strategy</li>
+                    <li>Real Estate</li>
+                    <li>ROI</li>
+                    <li>Market Trends</li>
+                    <li>Venture Capital</li>
+                </ol>
+            </div>
+        </div>
+        <div class="container">
+            <table class="ranking-table">
+                <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Status</th>
+                    <th>Username</th>
+                    <th>Rating (Rate Amount)</th>
+                    <th>Posts</th>
+                    <th>Comments</th>
+                    <th>Loves</th>
+                    <th>Awards</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr onclick="location.href='#';">
+                    <td class="rank">5</td>
+                    <td class="status rise">⇧</td>
+                    <td class="username">@MarketWizard</td>
+                    <td class="rating">
+                        <div class="stars">
+                            <span>⭐⭐⭐⭐</span>
+                        </div>
+                        (72)
+                    </td>
+                    <td class="stats">20</td>
+                    <td class="stats">450</td>
+                    <td class="stats">800</td>
+                    <td class="stats">$120</td>
+                </tr>
+                <tr onclick="location.href='#';">
+                    <td class="rank">6</td>
+                    <td class="status same">-</td>
+                    <td class="username">@StockStrategist</td>
+                    <td class="rating">
+                        <div class="stars">
+                            <span>⭐⭐⭐⭐</span>
+                        </div>
+                        (65)
+                    </td>
+                    <td class="stats">18</td>
+                    <td class="stats">410</td>
+                    <td class="stats">750</td>
+                    <td class="stats">$100</td>
+                </tr>
+                <tr onclick="location.href='#';">
+                    <td class="rank">7</td>
+                    <td class="status rise">⇧</td>
+                    <td class="username">@WealthArchitect</td>
+                    <td class="rating">
+                        <div class="stars">
+                            <span>⭐⭐⭐⭐</span>
+                        </div>
+                        (60)
+                    </td>
+                    <td class="stats">15</td>
+                    <td class="stats">390</td>
+                    <td class="stats">700</td>
+                    <td class="stats">$90</td>
+                </tr>
+                <tr onclick="location.href='#';">
+                    <td class="rank">8</td>
+                    <td class="status fall">⇩</td>
+                    <td class="username">@FinanceGuru</td>
+                    <td class="rating">
+                        <div class="stars">
+                            <span>⭐⭐⭐⭐</span>
+                        </div>
+                        (55)
+                    </td>
+                    <td class="stats">12</td>
+                    <td class="stats">350</td>
+                    <td class="stats">650</td>
+                    <td class="stats">$80</td>
+                </tr>
+                <tr onclick="location.href='#';">
+                    <td class="rank">9</td>
+                    <td class="status fall">⇩</td>
+                    <td class="username">@MoneyMogul</td>
+                    <td class="rating">
+                        <div class="stars">
+                            <span>⭐⭐⭐⭐</span>
+                        </div>
+                        (50)
+                    </td>
+                    <td class="stats">10</td>
+                    <td class="stats">300</td>
+                    <td class="stats">600</td>
+                    <td class="stats">$70</td>
+                </tr>
+                <tr onclick="location.href='#';">
+                    <td class="rank">10</td>
+                    <td class="status fall">⇩</td>
+                    <td class="username">@username</td>
+                    <td class="rating">
+                        <div class="stars">
+                            <span>⭐⭐⭐⭐</span>
+                        </div>
+                        (50)
+                    </td>
+                    <td class="stats">11</td>
+                    <td class="stats">200</td>
+                    <td class="stats">660</td>
+                    <td class="stats">$90</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</html>
